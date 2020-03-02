@@ -50,6 +50,11 @@ spec:
         component: worker
         release: {{ .Release.Name }}
     spec:
+      {{- if .Values.workers.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.workers.securityContext.fsGroup }}
+        runAsUser: {{ .Values.workers.securityContext.runAsUser }}
+      {{- end }}
       {{- if .Values.airflow.image.pullSecret }}
       imagePullSecrets:
         - name: {{ .Values.airflow.image.pullSecret }}
